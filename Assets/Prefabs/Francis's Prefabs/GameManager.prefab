@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f2ab73526340c43a3c5b280107b694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  enemyOnePrefab: {fileID: 0}
+  enemyOnePrefab: {fileID: 770634116467176078, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
   horizontalScreenSize: 0
   verticalScreenSize: 0
   cloudPrefab: {fileID: 770634116467176078, guid: f7f456188472ae94181b8ca3f1a442ba, type: 3}
+  livesText: {fileID: 0}
