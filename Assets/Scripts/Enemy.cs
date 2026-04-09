@@ -3,25 +3,22 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public GameObject explosionPrefab; 
-    private GameManager gameManger; 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private GameManager _gameManager;
+    
+    private void OnTriggerEnter2D(Collider2D whatWasHit)
     {
-        
-    }
-    private void OnTriggerEnter2D(Collider2D whatDidIHit){
-        if(whatDidIHit.tag == "Player"){
-            whatDidIHit.GetComponent<PlayerController>().LoseALife(); 
+        if (whatWasHit.CompareTag("Player"))
+        {
+            whatWasHit.GetComponent<PlayerController>().LoseALife(); 
             Instantiate(explosionPrefab, transform.position, Quaternion.identity); 
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
-        else if(whatDidIHit.tag == "Weapons"){
-            Destroy(whatDidIHit.gameObject);
+        else if (whatWasHit.CompareTag("Weapons"))
+        {
+            Destroy(whatWasHit.gameObject);
             Instantiate(explosionPrefab, transform.position, Quaternion.identity); 
-            //add score to the game manager if i have reference 
-            Destroy(this.gameObject); 
-
-
+            // add score to the game manager if I have reference 
+            Destroy(gameObject); 
         }
     }
 }
