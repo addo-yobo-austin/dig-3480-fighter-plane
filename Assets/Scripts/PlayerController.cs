@@ -55,8 +55,11 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         //Move the player
         transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * Time.deltaTime * playerSpeed);
-        float horizontalScreenSize = gameManager.horizontalScreenSize;
-        float verticalScreenSize = gameManager.verticalScreenSize; 
+
+        // Finds the current aspect ratio and uses that as a border
+        float verticalScreenSize = Camera.main.orthographicSize;
+        float horizontalScreenSize = Camera.main.aspect * verticalScreenSize;
+        
         //Player leaves the screen horizontally
         if(transform.position.x > horizontalScreenSize || transform.position.x <= -horizontalScreenSize)
         {
@@ -67,5 +70,17 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y * -1, 0);
         }
+        //Player cannot move past the center or bottom of the screen.
+        float cameraYPosition = Camera.main.transform.position.y;
+        // Makes it so that it looks at the border of the cube and not the center.
+        float playerHalfSize = 0.5f;
+
+        float bottomScreenLimit = cameraYPosition - verticalScreenSize + playerHalfSize;
+        float centerScreenLimit = cameraYPosition + -cameraYPosition;
+        
+        float yLimit = Mathf.Clamp(transform.position.y, bottomScreenLimit, centerScreenLimit);
+        transform.position = new Vector3(transform.position.x, yLimit, 0);
+        
+        
     }
 }
