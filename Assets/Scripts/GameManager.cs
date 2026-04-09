@@ -1,16 +1,21 @@
 using UnityEngine;
 using TMPro;
 
+internal enum EnemyType
+{
+    One,
+    Two
+}
+
 public class GameManager : MonoBehaviour
 {
-
-    public GameObject enemyOnePrefab;
+    [SerializeField] private GameObject _enemyOnePrefab;
+    [SerializeField] private GameObject _enemyTwoPrefab;
     
     public float horizontalScreenSize;
     public float verticalScreenSize;
     public GameObject cloudPrefab;
     public TextMeshProUGUI livesText; 
-    
     
     // Start is called before the first frame update
     void Start()
@@ -19,31 +24,42 @@ public class GameManager : MonoBehaviour
         verticalScreenSize = 6.5f;
         
         CreateSky();
-        
         InvokeRepeating("CreateEnemyOne", 1, 2);
+        InvokeRepeating("CreateEnemyTwo", 2, Random.Range(2, 5));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
-    void CreateSky()
+    private void CreateSky()
     {
         for (int i = 0; i < 30; i++)
         {
-            //thing you spawn in, vector position, rotation
+            // thing you spawn in, vector position, rotation
             Instantiate(cloudPrefab, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), Random.Range(-verticalScreenSize,verticalScreenSize), 0), Quaternion.identity);
         }
     }
-    
-    void CreateEnemyOne()
+
+    private void CreateEnemy(EnemyType type)
     {
-        Instantiate(enemyOnePrefab, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity);
+        GameObject toSpawn = type switch
+        {
+            EnemyType.One => _enemyOnePrefab,
+            EnemyType.Two => _enemyTwoPrefab,
+            _ => _enemyOnePrefab
+        };
+        Instantiate(toSpawn, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity);
     }
-    public void ChangeLivesText (int currentLives){
+    
+    private void CreateEnemyOne()
+    {
+        CreateEnemy(EnemyType.One);
+    }
+
+    private void CreateEnemyTwo()
+    {
+        CreateEnemy(EnemyType.Two);
+    }
+    
+    public void ChangeLivesText(int currentLives)
+    {
         livesText.text = "lives " + currentLives;
-      
     }
 }

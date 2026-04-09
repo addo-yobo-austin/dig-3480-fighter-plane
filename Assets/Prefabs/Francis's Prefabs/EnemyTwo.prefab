@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 770634116467176078, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
       propertyPath: m_Name
-      value: Sphere
+      value: EnemyTwo
       objectReference: {fileID: 0}
     - target: {fileID: 3691436042598662576, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -51,6 +51,30 @@ PrefabInstance:
     - target: {fileID: 3691436042598662576, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7141536392670396176, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 14333011feaffdc8da6876c710e19f83, type: 2}
+    - target: {fileID: 7764432091000700337, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
+      propertyPath: goingUp
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764432091000700337, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
+      propertyPath: _enemyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764432091000700337, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
+      propertyPath: _enemyTwoWaveFrequency
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764432091000700337, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
+      propertyPath: _enemyTwoWaveMagnitude
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764432091000700337, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
+      propertyPath: _enemyTwoSpeedMultiplier
+      value: 1.27
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
