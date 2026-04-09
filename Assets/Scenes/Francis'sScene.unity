@@ -419,7 +419,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -622,11 +622,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &703421817 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 770634116467176078, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
-  m_PrefabInstance: {fileID: 6405821630711504869}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,18 +880,6 @@ PrefabInstance:
       propertyPath: livesText
       value: 
       objectReference: {fileID: 29723589}
-    - target: {fileID: 6381897778142554144, guid: ce999ccafd551cb42bc28caf1da62825, type: 3}
-      propertyPath: enemyOnePrefab
-      value: 
-      objectReference: {fileID: 703421817}
-    - target: {fileID: 6381897778142554144, guid: ce999ccafd551cb42bc28caf1da62825, type: 3}
-      propertyPath: _enemyOnePrefab
-      value: 
-      objectReference: {fileID: 770634116467176078, guid: 2b6abb95569a7d8418d6036e905106b4, type: 3}
-    - target: {fileID: 6381897778142554144, guid: ce999ccafd551cb42bc28caf1da62825, type: 3}
-      propertyPath: _enemyTwoPrefab
-      value: 
-      objectReference: {fileID: 1231448731515570852, guid: 9d8729bc5972e4bd49b89b61aaab3ad1, type: 3}
     - target: {fileID: 8972846879526001925, guid: ce999ccafd551cb42bc28caf1da62825, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5016
