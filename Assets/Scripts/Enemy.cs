@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D whatWasHit)
     {
+        print($"Hit: {whatWasHit}");
+        
         if (whatWasHit.CompareTag("Player"))
         {
             whatWasHit.GetComponent<PlayerController>().LoseALife(); 
