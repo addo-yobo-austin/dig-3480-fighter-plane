@@ -67,5 +67,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y * -1, 0);
         }
+        //Player cannot move past the center of the screen
     }
 }
