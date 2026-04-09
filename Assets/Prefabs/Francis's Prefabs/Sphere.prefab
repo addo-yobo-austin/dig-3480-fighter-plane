@@ -107,7 +107,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3328242b64e0da64a809eb0d73810ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 2685165817670751141, guid: 5de0f5610d849d64d82441bd3c10563c, type: 3}
 --- !u!114 &7764432091000700337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,5 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695cebbd55dee714a864b50ebe622c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Glider
+  _enemyType: 0
   goingUp: 0
   speed: 3
+  _enemyTwoSpeedMultiplier: 1.1
+  _enemyTwoWaveMagnitude: 2
+  _enemyTwoWaveFrequency: 2
