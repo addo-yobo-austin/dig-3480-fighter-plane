@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     private bool gameOver;
     public float score;
     public GameObject powerupPrefab;
+    public GameObject audioPlayer;
+    public AudioClip powerUpSound;
+    public AudioClip powerDownSound;
     
     // Start is called before the first frame update
     void Start()
@@ -80,6 +83,14 @@ public class GameManager : MonoBehaviour
     }
     public void PlaySound(int whichSound)
     {
-        
+        switch (whichSound)
+        {
+            case 1:
+                audioPlayer.GetComponent<AudioSource>().PlayOneShot(powerUpSound);
+                break;
+            case 2:
+                audioPlayer.GetComponent<AudioSource>().PlayOneShot(powerDownSound);
+                break;
+        }
     }
 }
