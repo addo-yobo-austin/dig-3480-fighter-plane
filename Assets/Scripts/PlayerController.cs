@@ -53,12 +53,14 @@ public class PlayerController : MonoBehaviour
     public void AddShield()
     {
         SetShield(true);
+        gameManager.PlaySound(1);
     }
 
     private bool CheckShield()
     {
         if (!_hasShield) return false;
         SetShield(false);
+        gameManager.PlaySound(2);
         return true;
     }
     
