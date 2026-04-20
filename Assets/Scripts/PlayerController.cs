@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     // 2. data type: int, float, bool, string
     // 3. variable name: camelCase
     // 4. value: optional
-    public int lives; 
+    public int lives = 3; 
     public GameManager gameManager; 
     public GameObject explosionPrefab; 
     private const float k_playerSpeed = 6f;
@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        lives = 3; 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); 
         gameManager.ChangeLivesText(lives); 
         //This function is called at the start of the game
@@ -62,6 +61,14 @@ public class PlayerController : MonoBehaviour
         gameManager.PlaySound(ClipType.PowerDown);
         return true;
     }
+
+    public void Heal()
+    {
+        if (lives >= 3) return;
+        lives++;
+        gameManager.ChangeLivesText(lives);
+        gameManager.PlaySound(ClipType.Heal);
+    }
     
     public void LoseALife()
     {
@@ -82,6 +89,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(bulletPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+            gameManager.PlaySound(ClipType.Shoot);
         }
     }
     

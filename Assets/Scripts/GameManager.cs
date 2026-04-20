@@ -12,7 +12,9 @@ public enum ClipType
     PowerUp,
     PowerDown,
     Detonate,
-    Coin
+    Coin,
+    Heal,
+    Shoot
 }
 
 public class GameManager : MonoBehaviour
@@ -28,7 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip _powerUpSound,
                                        _powerDownSound,
                                        _detonateSound,
-                                       _coinSound;
+                                       _coinSound,
+                                       _healSound,
+                                       _shootSound;
     
     public float horizontalScreenSize;
     public float verticalScreenSize;
@@ -108,6 +112,8 @@ public class GameManager : MonoBehaviour
             ClipType.PowerDown => _powerDownSound,
             ClipType.Detonate => _detonateSound,
             ClipType.Coin => _coinSound,
+            ClipType.Heal => _healSound,
+            ClipType.Shoot => _shootSound,
             _ => _powerUpSound
         });
     }

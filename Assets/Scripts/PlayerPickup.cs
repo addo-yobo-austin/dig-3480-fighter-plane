@@ -3,7 +3,8 @@ using UnityEngine;
 public enum PickupType
 {
     Shield,
-    Coin
+    Coin,
+    Health
 }
 
 public class PlayerPickup : MonoBehaviour
@@ -35,7 +36,9 @@ public class PlayerPickup : MonoBehaviour
                 _gameManagerInstance.UpdateScore(k_coinValue);
                 _gameManagerInstance.PlaySound(ClipType.Coin);
                 break;
-            default:
+            case  PickupType.Health:
+                other.GetComponent<PlayerController>().Heal();
+                _gameManagerInstance.PlaySound(ClipType.Heal);
                 break;
         }
         
