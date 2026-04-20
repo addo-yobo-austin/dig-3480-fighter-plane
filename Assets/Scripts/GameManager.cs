@@ -16,16 +16,22 @@ public class GameManager : MonoBehaviour
     public float verticalScreenSize;
     public GameObject cloudPrefab;
     public TextMeshProUGUI livesText; 
+    public GameObject gameOverMenu;
+    private bool gameOver;
+    public float score;
+    public GameObject powerupPrefab;
     
     // Start is called before the first frame update
     void Start()
     {
         horizontalScreenSize = 10f;
         verticalScreenSize = 6.5f;
+        score = 0;
         
         CreateSky();
         InvokeRepeating("CreateEnemyOne", 1, 2);
         InvokeRepeating("CreateEnemyTwo", 2, Random.Range(2, 5));
+        
     }
 
     private void CreateSky()
@@ -61,5 +67,19 @@ public class GameManager : MonoBehaviour
     public void ChangeLivesText(int currentLives)
     {
         livesText.text = "lives " + currentLives;
+    }
+    
+    void CreatePowerup()
+    {
+        Instantiate(powerupPrefab, new Vector3(Random.Range(-horizontalScreenSize * .8f, horizontalScreenSize * .8f), Random.Range(-verticalScreenSize * .8f, verticalScreenSize * .8f), 0), Quaternion.identity); 
+    }
+    
+    public void ManagePowerupText(int powerupType)
+    {
+       
+    }
+    public void PlaySound(int whichSound)
+    {
+        
     }
 }
