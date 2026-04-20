@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyOnePrefab;
     [SerializeField] private GameObject _enemyTwoPrefab;
+    [SerializeField] private GameObject[] _gliderMenu;
     
     public float horizontalScreenSize;
     public float verticalScreenSize;
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
         CreateSky();
         InvokeRepeating("CreateEnemyOne", 1, 2);
         InvokeRepeating("CreateEnemyTwo", 2, Random.Range(2, 5));
-        
+        InvokeRepeating("CreatePowerup", 3, Random.Range(3, 8));
     }
 
     private void CreateSky()
@@ -57,24 +58,19 @@ public class GameManager : MonoBehaviour
         Instantiate(toSpawn, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity);
     }
     
-    private void CreateEnemyOne()
-    {
-        CreateEnemy(EnemyType.One);
-    }
-
-    private void CreateEnemyTwo()
-    {
-        CreateEnemy(EnemyType.Two);
-    }
+    private void CreateEnemyOne() => CreateEnemy(EnemyType.One);
+    private void CreateEnemyTwo() => CreateEnemy(EnemyType.Two);
     
     public void ChangeLivesText(int currentLives)
     {
-        livesText.text = "lives " + currentLives;
+        livesText.text = "Lives: " + currentLives;
     }
     
-    void CreatePowerup()
+    private void CreatePowerup()
     {
-        Instantiate(powerupPrefab, new Vector3(Random.Range(-horizontalScreenSize * .8f, horizontalScreenSize * .8f), Random.Range(-verticalScreenSize * .8f, verticalScreenSize * .8f), 0), Quaternion.identity); 
+        GameObject powerup = _gliderMenu[Random.Range(0, _gliderMenu.Length)];
+        // Instantiate(powerup, new Vector3(Random.Range(-horizontalScreenSize * .8f, horizontalScreenSize * .8f), Random.Range(-verticalScreenSize * .8f, verticalScreenSize * .8f), 0), Quaternion.identity); 
+        Instantiate(powerup, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity);
     }
     
     public void ManagePowerupText(int powerupType)
