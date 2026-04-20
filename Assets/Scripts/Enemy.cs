@@ -4,23 +4,38 @@ public class Enemy : MonoBehaviour
 {
     public GameObject explosionPrefab; 
     private GameManager _gameManager;
+
+    /// <summary>
+    /// Inherit knowledge of the gameManager from the legendary source
+    /// </summary>
+    /// <param name="gameManager"></param>
+    public void Init(GameManager gameManager)
+    {
+        _gameManager = gameManager;
+    }
     
     private void OnTriggerEnter2D(Collider2D whatWasHit)
     {
         print($"Hit: {whatWasHit}");
-        
+
         if (whatWasHit.CompareTag("Player"))
         {
             whatWasHit.GetComponent<PlayerController>().LoseALife(); 
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity); 
-            Destroy(gameObject);
+            DestroyFunc();
         }
         else if (whatWasHit.CompareTag("Weapons"))
         {
             Destroy(whatWasHit.gameObject);
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity); 
-            // add score to the game manager if I have reference 
-            Destroy(gameObject); 
+            DestroyFunc();
+        }
+
+        return;
+
+        void DestroyFunc()
+        {
+            Explosion exp = Instantiate(explosionPrefab, transform.position, Quaternion.identity).GetComponent<Explosion>();
+            exp.Detonate(_gameManager);
+            Destroy(gameObject);
         }
     }
 }

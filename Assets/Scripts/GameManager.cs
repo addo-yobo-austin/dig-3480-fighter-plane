@@ -7,35 +7,45 @@ internal enum EnemyType
     Two
 }
 
+public enum ClipType
+{
+    PowerUp,
+    PowerDown,
+    Detonate,
+    Coin
+}
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyOnePrefab;
     [SerializeField] private GameObject _enemyTwoPrefab;
     [SerializeField] private GameObject[] _gliderMenu;
     
+    private float _score = 0;
+    private bool _isGameOver;
+    
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _powerUpSound,
+                                       _powerDownSound,
+                                       _detonateSound,
+                                       _coinSound;
+    
     public float horizontalScreenSize;
     public float verticalScreenSize;
     public GameObject cloudPrefab;
-    public TextMeshProUGUI livesText; 
-    public GameObject gameOverMenu;
-    private bool gameOver;
-    public float score;
-    public GameObject powerupPrefab;
-    public GameObject audioPlayer;
-    public AudioClip powerUpSound;
-    public AudioClip powerDownSound;
+    [SerializeField] private TextMeshProUGUI _livesText; 
+    [SerializeField] private TMP_Text _scoreText;
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         horizontalScreenSize = 10f;
         verticalScreenSize = 6.5f;
-        score = 0;
         
         CreateSky();
-        InvokeRepeating("CreateEnemyOne", 1, 2);
-        InvokeRepeating("CreateEnemyTwo", 2, Random.Range(2, 5));
-        InvokeRepeating("CreatePowerup", 3, Random.Range(3, 8));
+        InvokeRepeating(nameof(CreateEnemyOne), 1, 2);
+        InvokeRepeating(nameof(CreateEnemyTwo), 2, Random.Range(2, 5));
+        InvokeRepeating(nameof(CreatePowerup), 3, Random.Range(3, 8));
     }
 
     private void CreateSky()
@@ -55,38 +65,50 @@ public class GameManager : MonoBehaviour
             EnemyType.Two => _enemyTwoPrefab,
             _ => _enemyOnePrefab
         };
-        Instantiate(toSpawn, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity);
+        Enemy enemy = Instantiate(toSpawn, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity).GetComponent<Enemy>();
+        enemy.Init(this);
     }
     
     private void CreateEnemyOne() => CreateEnemy(EnemyType.One);
     private void CreateEnemyTwo() => CreateEnemy(EnemyType.Two);
+
+    private void UpdateGenericTMPText(TMP_Text target, string text)
+    {
+        target.text = text;
+    }
     
     public void ChangeLivesText(int currentLives)
     {
-        livesText.text = "Lives: " + currentLives;
+        UpdateGenericTMPText(_livesText, "Lives: " + currentLives);
+    }
+
+    public void UpdateScore(int pointsAdditive)
+    {
+        _score += pointsAdditive;
+        UpdateGenericTMPText(_scoreText, "Score: " + _score);
     }
     
     private void CreatePowerup()
     {
         GameObject powerup = _gliderMenu[Random.Range(0, _gliderMenu.Length)];
-        // Instantiate(powerup, new Vector3(Random.Range(-horizontalScreenSize * .8f, horizontalScreenSize * .8f), Random.Range(-verticalScreenSize * .8f, verticalScreenSize * .8f), 0), Quaternion.identity); 
-        Instantiate(powerup, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity);
+        PlayerPickup pickup = Instantiate(powerup, new Vector3(Random.Range(-horizontalScreenSize, horizontalScreenSize), verticalScreenSize, 0), Quaternion.identity).GetComponent<PlayerPickup>();
+        pickup.Init(this);
     }
     
     public void ManagePowerupText(int powerupType)
     {
        
     }
-    public void PlaySound(int whichSound)
+    
+    public void PlaySound(ClipType clipType)
     {
-        switch (whichSound)
+        _audioSource.PlayOneShot(clipType switch
         {
-            case 1:
-                audioPlayer.GetComponent<AudioSource>().PlayOneShot(powerUpSound);
-                break;
-            case 2:
-                audioPlayer.GetComponent<AudioSource>().PlayOneShot(powerDownSound);
-                break;
-        }
+            ClipType.PowerUp => _powerUpSound,
+            ClipType.PowerDown => _powerDownSound,
+            ClipType.Detonate => _detonateSound,
+            ClipType.Coin => _coinSound,
+            _ => _powerUpSound
+        });
     }
 }
