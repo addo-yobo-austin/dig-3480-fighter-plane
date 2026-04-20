@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public int lives; 
     public GameManager gameManager; 
     public GameObject explosionPrefab; 
-    private float _playerSpeed = 6f;
+    private const float k_playerSpeed = 6f;
     private float _horizontalInput;
     private float _verticalInput;
 
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         _mainCam =  Camera.main;
         if (!_mainCam)
         {
-            Debug.LogError("No Main Camera");
+            Debug.LogError("No Main Camera", this);
         }
     }
     
@@ -53,14 +53,13 @@ public class PlayerController : MonoBehaviour
     public void AddShield()
     {
         SetShield(true);
-        gameManager.PlaySound(1);
     }
 
     private bool CheckShield()
     {
         if (!_hasShield) return false;
         SetShield(false);
-        gameManager.PlaySound(2);
+        gameManager.PlaySound(ClipType.PowerDown);
         return true;
     }
     
@@ -72,7 +71,8 @@ public class PlayerController : MonoBehaviour
         gameManager.ChangeLivesText(lives);
         if (lives > 0) return;
         
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity); 
+        Explosion exp = Instantiate(explosionPrefab, transform.position, Quaternion.identity).GetComponent<Explosion>();
+        exp.Detonate(gameManager);
         Destroy(gameObject);
     }
 
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         _horizontalInput = Input.GetAxis("Horizontal");
         _verticalInput = Input.GetAxis("Vertical");
         // Move the player
-        transform.Translate(new Vector3(_horizontalInput, _verticalInput, 0) * (Time.deltaTime * _playerSpeed));
+        transform.Translate(new Vector3(_horizontalInput, _verticalInput, 0) * (Time.deltaTime * k_playerSpeed));
 
         // Finds the current aspect ratio and uses that as a border
         float verticalScreenSize = _mainCam.orthographicSize;
