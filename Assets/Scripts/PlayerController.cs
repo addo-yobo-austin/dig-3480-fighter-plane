@@ -7,10 +7,10 @@ public class PlayerController : MonoBehaviour
     // 2. data type: int, float, bool, string
     // 3. variable name: camelCase
     // 4. value: optional
-    public int lives; 
+    public int lives = 3; 
     public GameManager gameManager; 
     public GameObject explosionPrefab; 
-    private float _playerSpeed = 6f;
+    private const float k_playerSpeed = 6f;
     private float _horizontalInput;
     private float _verticalInput;
 
@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        lives = 3; 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); 
         gameManager.ChangeLivesText(lives); 
         //This function is called at the start of the game
@@ -32,7 +31,7 @@ public class PlayerController : MonoBehaviour
         _mainCam =  Camera.main;
         if (!_mainCam)
         {
-            Debug.LogError("No Main Camera");
+            Debug.LogError("No Main Camera", this);
         }
     }
     
@@ -53,15 +52,22 @@ public class PlayerController : MonoBehaviour
     public void AddShield()
     {
         SetShield(true);
-        gameManager.PlaySound(1);
     }
 
     private bool CheckShield()
     {
         if (!_hasShield) return false;
         SetShield(false);
-        gameManager.PlaySound(2);
+        gameManager.PlaySound(ClipType.PowerDown);
         return true;
+    }
+
+    public void Heal()
+    {
+        if (lives >= 3) return;
+        lives++;
+        gameManager.ChangeLivesText(lives);
+        gameManager.PlaySound(ClipType.Heal);
     }
     
     public void LoseALife()
@@ -72,7 +78,8 @@ public class PlayerController : MonoBehaviour
         gameManager.ChangeLivesText(lives);
         if (lives > 0) return;
         
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity); 
+        Explosion exp = Instantiate(explosionPrefab, transform.position, Quaternion.identity).GetComponent<Explosion>();
+        exp.Detonate(gameManager);
         Destroy(gameObject);
     }
 
@@ -82,6 +89,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(bulletPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+            gameManager.PlaySound(ClipType.Shoot);
         }
     }
     
@@ -91,7 +99,7 @@ public class PlayerController : MonoBehaviour
         _horizontalInput = Input.GetAxis("Horizontal");
         _verticalInput = Input.GetAxis("Vertical");
         // Move the player
-        transform.Translate(new Vector3(_horizontalInput, _verticalInput, 0) * (Time.deltaTime * _playerSpeed));
+        transform.Translate(new Vector3(_horizontalInput, _verticalInput, 0) * (Time.deltaTime * k_playerSpeed));
 
         // Finds the current aspect ratio and uses that as a border
         float verticalScreenSize = _mainCam.orthographicSize;
